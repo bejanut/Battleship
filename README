@@ -1,0 +1,148 @@
+								Battleship
+
+................................................................................						
+	Pentru ca jocul sa functioneze corect este recomandata ca suprafata
+terminalului sa fie de 36 de randuri si 110 coloane.
+	Jocul incepe prin deschiderea unui meniu de unde player-ul poate alege
+initial doar 3 optiuni cea de "Resume Game" fiind inactiva. Optiunea jucatorului
+este specificata prin conturarea fundalului unuia dintre siruri. La apasarea
+tastei "ENTER" se selecteaza optiunea specificata. La selectarea optiunii "QUIT"
+se iese din joc.
+	La selectarea optiunii "New Game" se deschide o noua fereastra pentru ca
+jucatorul sa isi aleaga un nume. Jucatorul poate folosi doar litere, iar numele
+se termina la apasarea tastei enter sau daca depaseste 14 caractere.
+	Dupa ce a fost selectat numele pe ecran apar 2 table de joc si diferite
+optiuni ale playerului precum randomizarea tablei sale de joc(tasta R),
+intoarcerea la meniu(tasta Q) sau posibilitatea de a avansa jocul cu 10 mutari
+aleatorii(D).
+	Daca a fost specificat un singur argument, se va incarca acea harta pentru
+jucator, daca au fost specificate mai multe argumente se va va alege o harta
+aleatoare pentru fiecare joc nou.
+	Jucatorul se poate misca pe tabla de joc cu ajutorul sagetilor, iar
+selectia se face cu tasta "Enter". Miscarea se realizeaza prin citirea succesiva
+a tastelor apasate de utilizator, iar in cazul in care tastele sunt sagetile,
+pozitia se modifica(retinuta intr-o variabila de tip ce retina 2 valori intregi
+reprezendand axele Ox si Oy), acest lucru fiind modificat si pe ecran. Culorile
+alese pentru joc sunt galben, albastru, negru, respectiv rosu. Albastru este
+folosit pentru fundalul tablei. 
+
+	Semnificatia simbolurilor este urmatoarea:
+
+"~~" de culoare neagra, inseamna casuta neincercata
+ ~~
+
+"~~" de culoare galbena, inseamna casuta in care nu se afla o bucata de nava
+ ~~
+
+"##" de culoare rosie, insemana nava lovita
+ ##
+
+"XX" de culoare rosie reprezinta o nava doborata
+ XX  (au fost lovite toate segmentele ei)
+
+	Daca jucatorul nimereste o bucata de nava sau o nava, el poate continua, in
+caz contrar, se trece la tura calculatorului. Turele sunt specificate prin
+analizarea variabilei turn.
+	Jocul se incheie cand toate navele au fost doborate fie de calculator, fie
+de jucator(Se verifica daca navele vreunui jucator au toate atributul
+destroyed = 1). Se va afisa la final un mesaj corespunzator fiecarei situatii,
+apoi se rededeschide meniul.
+................................................................................
+	
+	Crearea configuratiei calculatorului.
+
+	Navele sunt puse aleator pe tabla, care are dimensiunea de 12 X 12, una dupa
+alta, avand grija la pozitia pe verticala sau pe orizontala in functie de
+orientarea navei. Dupa ce o nava a fost pusa pe tabla, in jurul ei se pune un
+"contur" format din valori de 2, pentru a ne asigura ca navele nu vor fi lipite.
+Pentru ca o nava sa fie pusa pe tabla trebuie ca acesta sa treaca testul de
+coliziune, astfel sunt generate pozitii aleatorii pentru insertia navei pana
+cand aceasta este asezata intr-o pozitie corespunzatore. La final se sterg
+valorile auxiliare de 2 si se muta tabla de joc intr-o matrice de 10 X 10.
+................................................................................
+	
+	Functia de randomizare
+
+	Pentru functia de randomizare a navelor, ne folosim de atributul destroyed,
+din structura ship, eliminand navele distruse si repozitionandu-le pe cele
+ramase. Repozitionarea se realizeaza asemanator cu creerea initiala a tablei 
+cu configutratie aleatorie.
+................................................................................
+
+	Destrory in advance
+
+	La apelarea functiei destroy in advace, odata cu apasarea tastei D,
+variabila destroy in advance primeste valorea 11 ceea ce duce la crearea unui
+vector de miscari posibile, din care sunt alese pozitii aleatoare, eliminandu-se
+fiecare povitie dupa ce a fost aleasa. Aceste pozitii aleatorii inlocuiesc tura
+utilizatorului timp de 10 mutari. 
+................................................................................
+						!!!Optiuni importante!!!
+
+	Makefile-ul este capabil sa creeze o harta generata automat, datoria
+programului obtinut prin compilarea sursei random_gen.c (inclusa pentru a usura)
+crearea hartilor. Petru aceasta optiune se foloseste optiunea make Board.txt, in
+urma caruia se obtine un fisier text cu o configuratie valida de harta. De 
+asemenea exista si optiunea rularii make run care compileaza si ruleaza
+executabilul battleship cu harta Board.txt(daca nu exista este creata automat).
+
+	
+								Precizare
+
+							| |#| | | | | | | |#
+							| | | | |#| |#|#| |#
+							| | |#| |#| | | | | 
+							| | | | |#| | | | |#
+							| |#| | |#| |#| | | 
+							| | | | | | |#| | | 
+							| | | | | | | | |#| 
+							| | | | |#|#|#| |#| 
+							| | | | | | | | |#| 
+							| | | | | | | | | | 
+
+	Harta este alcatuita din cate 10 caractere '|' urmate fie de spatiu(' '),
+fie de caracterul '#' care marcheaza o bucata de nava. o harta scrisa corect
+incepe cu caracterul '|' si are 10 randuri create conform cerintei de mai sus.
+Au fost incluse in arhiva 5 harti predefinite, cu numele incepand cu Board.
+................................................................................
+
+								BONUS-uri
+
+	1. Utilizarea culorilor pentru a face jocul mai apractiv din punct de
+vedere vizual.
+________________________________________________________________________________
+
+	2. Implementarea unui scor care se updateaza in timp real si care 
+incurajeaza jucatorul sa incerce sa rateze cat mai rar, deoarece pentru fiecare
+nava lovita sau doborata se adauga 5 puncte la punctajul initial de 100, iar la
+fiecare lovitura gresita se scade un punct.
+________________________________________________________________________________
+
+	3. Posbilitatea jucatorului de a-si alege un nume, si implimentarea unei
+ierarhii cu cei mai buni jucatori. Optiunea "Leaderboard" din meniu ii perminte
+jucatorului sa vada cele mai bune 5 scoruri. La fiecare joc catigat de catre
+jucator se va verifica daca scorul sau este superior celor mai bune scoruri,
+iar in acest caz ierarhie va fi modificata, adaugandu-se numele si scorul
+acestuia. In interiorul ferestrei de Leaderboard exista posibilitatea de a
+reseta toata ierarhia prin apasarea tastei R.
+________________________________________________________________________________
+
+	4. Pe tablea de joc se afiseaza si cate nave au fost doboarte de catre
+jucator pentru a putea stii ce nave ar mai trebui cautate. Pentru a econimisi
+memorie intr-o singura variabila intreaga sunt retinute cate nave au fost
+doborate, astfel: cifra unitatilor retine navele de o casuta, cea a zecilor
+navele de 2 casute, etc. De asemenea se afiseaza un mesaj("Ship Destroyed"), de
+fiecare data cand o nava este distrusa de catre jucator.
+________________________________________________________________________________
+
+	5. Jocul inteligent al calculatorului este asigurat de un algoritm care
+il face pe computer sa nu paraseasca o nava lovita pana nu este doborata.
+Acesta loveste prima data in casuta din dreapta celei lovite, in caz ca nu
+gaseste alta bucata de nava, continua prin a testa in josul casutei initiale,
+apoi in stanga, iar apoi in dreapta. In momentul in care se gaseste ce-a de-a
+doua bucata de nava se stabileste o directie pe care se continua pana se
+doboara nava sau pana se duce pe o patratica goala. In cazul in care se ajunge
+pe o patratica gola si nava nu a fost doborata, se va continua in directia
+opusa pornind de la prima lovitura a navei. Pentru a ajunge la o nava
+calculatorul alege patratele la intamplare.
+................................................................................
